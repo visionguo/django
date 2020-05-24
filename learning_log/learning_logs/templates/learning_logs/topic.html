@@ -1,0 +1,35 @@
+{% extends 'learning_logs/base.html' %}
+
+{% block header %}
+    <h2>{{ topic }}</h2>
+{% endblock header %}
+
+{% block content %}
+    <p>
+        <a href="{% url 'learning_logs:new_entry' topic.id%}">add new entry</a>
+    </p>
+    {% for entry in entries %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>
+                    {{ entry.date_added|date:'M d, Y H:i' }}
+                    <small>
+                        <a href="{% url 'learning_logs:edit_entry' entry.id %}">
+                            edit entry</a>
+                    </small>
+                </h3>
+            </div>
+            <div class="panel-body">
+                {{ entry.text|linebreaks }}
+            </div>
+        </div> <!-- panel -->
+        {% empty %}
+            There are no entries for this topic yet.
+        {% endfor %}
+{% endblock content %}
+
+<!--{% block content % 将主题放在header块中，-->
+<!--<div class="panel panel-default"> 创建一个面板式div元素（而不是将每个条目作为一个列表项）-->
+    <!--包含两个嵌套的div：一个面板标题（panel-heading）div 和一个面板主体（panel-body）div-->
+<!--面板标题div包含条目的创建日期以及用于编辑条目的链接，都被设置为<h3>元素，对于编辑条目的链接，还使用了标签<small>，使其比时间戳小些-->
+<!--<div class="panel-body"> 是面板主体div，其中包含条目的实际文本，而且只修改了影响页面外观的元素，对在页面中包含信息的Django代码未做任何修改-->

@@ -1,0 +1,17 @@
+{% extends "learning_logs/base.html" %}
+{% block content %}
+
+    <p> <a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}}</a></p>     #1
+    <p> Add a new entry:</p>
+    <form action="{% url 'learning_logs:new_entry' topic.id %}" method='post'>      #2
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button name='submit'>add entry</button>
+    </form>
+
+{% endblock content%}
+
+"""
+    #1、在页面顶端显示了主题，让用户知道他是在哪个主题中添加条目，该主题名也是一个链接，可用于返回到该主题的主页面
+    #2、表单的实参action包含URL中的topic_id值，让视图函数能将新条目关联到正确的主题
+"""

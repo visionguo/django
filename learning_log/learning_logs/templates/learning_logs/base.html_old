@@ -1,0 +1,40 @@
+<p>
+    <a href="{% url 'learning_logs:index' %}">Learning Log</a>  -   #连字符
+    <a href="{% url 'learning_logs:topics' %}">Topics</a>   -
+    #添加一个到显示所有主题的页面的链接，使用的也是模版标签url，让Django生成一个链接，与learning_logs/urls.py中名为topics的URL模式匹配
+        {% if user.is_authenticated %}  #1
+            Hello, {{ user.username }}. #2
+            <a href="{% url 'users:logout' %}">log out</a>  #11
+        {% else %}
+            <a href="{% url 'users:register' %}">register</a> - #21
+            <a href="{% url 'users:login' %}">log in</a>    #3
+        {% endif %}
+</p>
+
+{% block content %} {% endblock content %}
+
+
+"""
+    #1.创建一个包含项目名的段落，该段落是一个到主页的链接；
+    #2.为创建链接，使用了一个模版标签，用{% %表示；模版标签是一小段代码，生成要在网页中显示的信息；
+    #3.在这个实例中，模版标签{% url 'learning_logs:index' %生成一个URL；
+    #4.该URL与learning_lods/urls.py中定义的名为index的URL模式匹配；
+    #5.在这个示例中，learning_logs是一个命名空间，index是该命名空间中一个名称独特的URL模式
+    #6.在HTML页面中，链接是使用锚 标签定义的 <a href="link_url">link text</a>
+    #让模版标签来生成URL，可让链接保持最新容易得多，要修改项目中的URL,只需修改urls.py中的URL模式，网页被请求时，Django将自动插入修改后的URL
+    #我们插入一对块标签，这个块名为content，是一个占位符，包含的信息将由子模版指定
+
+    #链接到登录页面
+    #下面在base.html中添加到登录页面的链接，让所有页面都包含它，用户已登录时，不想显示这个链接，因此将它嵌套在一个{% if %标签中
+    #在Django身份验证系统中，每个模版都可使用变量user，这个变量有一个is_authenticated属性：如果用户已登录，该属性将为True,否则为False
+    #这让你能够向已通过身份验证的用户显示一条消息，而向未通过身份验证的用户显示另一条消息
+    #1、向已登录的用户显示一条问候语
+    #2、对于已通过身份验证的用户，还设置了属性username，使用这个属性来个性化问候语，让用户知道Ta已登录
+    #3、对于还未通过身份验证的用户，再显示一个到登录页面的链接
+
+    链接到注销视图
+    #11、需添加个注销链接，在base.html中添加这种链接，让每个页面都包含它：把它放在标签{% if user.is_authenticated %中，使得仅当用户登录后才能看到它
+
+    #21、链接到注册页面
+    用户在没有登录时显示到注册页面的链接
+"""

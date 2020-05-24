@@ -1,0 +1,31 @@
+{% extends "learning_logs/base.html" %}
+{% load bootstrap3 %}   #11
+
+{% block header %}      #12
+    <h2>Log in to your account.</h2>
+{% endblock header %}
+
+{% block content %}
+    <form method="post" action="{% url 'users:login' %}" class="form">  #13
+        {% csrf_token %}
+        {% bootstrap_form form %}   #14
+
+        {% buttons %}   #15
+        <button name="submit" class="btn btn-primary">Log in</button>
+        {% endbuttons %}
+
+        <input type="hidden" name="next" value="{% url 'learning_logs:index' %}" />
+    </form>
+{% endblock content %}
+
+    <!--用户请求登录页面时，Django将使用其默认视图login,但仍要为这个页面提供 模版-->
+    <!--1、若表单errors属性被设置，就显示一条错误消息，指出输入的username-pass与数据库中的不一致-->
+    <!--2、要让登录视图处理表单，因此将实参action设置为登录页面的URL-->
+    <!--3、登录视图将一个表单发送给模版，在模版中，显示这个表单并添加一个提交按钮 #4-->
+    <!--5、包含一个隐藏的表单元素-'next',实参value告诉Django在用户成功登录后将其重定向到什么地方-在这里是主页-->
+
+    <!--11、模版中加载了bootstrap3模版标签-->
+    <!--12、定义了header块，描述了这个页面是做什么用的-->
+    <!--从模版中删除了{% if form.errors 代码块，django-bootstrap3会自动管理表单错误-->
+    <!--13、添加属性class="form",然后使用模版标签{% bootstrap_form 来显示表单 #14-->
+    <!--15、bootstrap3 起始模版标签buttons,将Bootstrap样式应用于按钮-->
